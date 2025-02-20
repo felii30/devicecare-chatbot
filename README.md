@@ -86,3 +86,15 @@ The React application will run on `http://localhost:3000`
 ## License
 
 [MIT License](LICENSE)
+
+## Environment Variables
+
+### Frontend
+
+- `REACT_APP_API_URL`: Backend API URL
+  - Development: http://localhost:8000
+  - Production: Your EC2 domain
+
+### Backend
+
+- `OPENAI_API_KEY`: Your OpenAI API key (Keep this secret!)
