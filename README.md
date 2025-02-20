@@ -1,6 +1,6 @@
 # DeviceCare Chatbot
 
-A conversational AI assistant for DeviceCare - your comprehensive device management solution. This chatbot helps users interact with DeviceCare's features for monitoring, protecting, and optimizing electronic devices.
+A specialized customer support chatbot for DeviceCare that provides instant assistance with inquiries. Powered by fine-tuned GPT-4o, this AI assistant helps users get accurate information about DeviceCare's device management solutions and services.
 
 ## Deployed Application
 
@@ -102,4 +102,4 @@ The application is deployed using:
 
 ## License
 
-[MIT License](LICENSE)
+This project is licensed under the [MIT License](./LICENSE).
