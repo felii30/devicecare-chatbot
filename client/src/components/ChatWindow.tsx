@@ -122,10 +122,6 @@ export const ChatWindow: React.FC = () => {
     }
   }
 
-  const handleTranscription = (text: string) => {
-    setInputMessage(text)
-  }
-
   return (
     <Flex h="100vh" overflow="hidden">
       <Sidebar

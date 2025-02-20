@@ -40,7 +40,6 @@ export const Sidebar: React.FC<SidebarProps> = ({
           zIndex={20}
           size="sm"
           aria-label="Open Sidebar"
-          display={{ base: "none", md: "flex" }} // Hide on mobile
         />
       )}
 
@@ -56,7 +55,6 @@ export const Sidebar: React.FC<SidebarProps> = ({
         transform={isOpen ? "translateX(0)" : "translateX(-100%)"}
         transition="transform 0.3s"
         zIndex={20}
-        display={{ base: "none", md: "block" }} // Hide on mobile
       >
         <VStack p={4} spacing={4} align="stretch">
           <Flex justify="space-between" align="center">

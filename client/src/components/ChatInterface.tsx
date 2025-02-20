@@ -1,7 +1,7 @@
-import React, { useRef } from "react"
+import React from "react"
 import { Box, Flex } from "@chakra-ui/react"
 import { ChatBubble } from "./ChatBubble.tsx"
-import { MessageInput } from "./MessageInput.tsx"
+import { MessageInput } from "./input/MessageInput.tsx"
 import { Message } from "../types/chat.ts"
 
 interface ChatInterfaceProps {
@@ -123,7 +123,7 @@ const InputContainer: React.FC<{
   >
     <Box maxW="4xl" mx="auto">
       <MessageInput
-        value={inputMessage}
+        value={inputMessage || ""}
         onChange={setInputMessage}
         onSendMessage={onSendMessage}
         isLoading={isLoading}

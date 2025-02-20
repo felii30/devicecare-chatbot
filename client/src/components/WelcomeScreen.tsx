@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 import { Box, Flex, Heading, Text, Grid, Button } from "@chakra-ui/react"
-import { MessageInput } from "./MessageInput.tsx"
+import { MessageInput } from "./input/MessageInput.tsx"
 import {
   floatAnimation1,
   floatAnimation2,
