@@ -17,10 +17,10 @@ interface WelcomeScreenProps {
 }
 
 const EXAMPLE_PROMPTS = [
-  "What services does DeviceCare offer?",
+  "What features does DeviceCare offer?",
   "How do I perform a device health scan?",
   "Do you offer a free trial?",
-  "How do I contact DeviceCare?",
+  "How do I contact DeviceCare support?",
 ]
 
 export const WelcomeScreen: React.FC<WelcomeScreenProps> = ({
