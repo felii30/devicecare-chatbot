@@ -28,7 +28,7 @@ export const sendMessage = async (message: string, threadId?: string): Promise<C
 export const transcribeAudio = async (audioBlob: Blob): Promise<string> => {
   try {
     const formData = new FormData()
-    formData.append("file", audioBlob)
+    formData.append("audio", audioBlob, "audio.webm")
     
     const response = await fetch(`${API_URL}/transcribe`, {
       method: "POST",
@@ -36,6 +36,8 @@ export const transcribeAudio = async (audioBlob: Blob): Promise<string> => {
     })
 
     if (!response.ok) {
+      const errorData = await response.json()
+      console.error("Transcription error details:", errorData)
       throw new Error(`HTTP error! status: ${response.status}`)
     }
     

@@ -1,5 +1,6 @@
 from fastapi import FastAPI, HTTPException, UploadFile, File
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 from typing import Dict, Optional
 import os
@@ -78,13 +79,28 @@ async def chat(message: ChatMessage) -> ChatResponse:
         raise HTTPException(status_code=500, detail=str(e))
 
 @app.post("/transcribe")
-async def transcribe_audio(audio: UploadFile = File(...)) -> TranscriptionResponse:
+async def transcribe_audio(
+    audio: UploadFile = File(..., description="The audio file to transcribe")
+) -> TranscriptionResponse:
     """
     Transcribe uploaded audio to text using OpenAI's Whisper model.
     """
     try:
+        # Validate file type
+        if not audio.content_type.startswith('audio/'):
+            raise HTTPException(
+                status_code=422,
+                detail="File must be an audio file"
+            )
+            
         # Read the audio file into memory
         audio_data = await audio.read()
+        
+        if len(audio_data) == 0:
+            raise HTTPException(
+                status_code=422,
+                detail="Audio file is empty"
+            )
         
         # Save temporarily to disk (Whisper API requires a file)
         temp_audio_path = f"temp_{audio.filename}"
@@ -109,7 +125,11 @@ async def transcribe_audio(audio: UploadFile = File(...)) -> TranscriptionRespon
                 
     except Exception as e:
         print(f"Error transcribing audio: {str(e)}")
-        raise HTTPException(status_code=500, detail=str(e))
+        # Return more detailed error information
+        return JSONResponse(
+            status_code=422,
+            content={"detail": str(e)}
+        )
 
 @app.get("/api/health")
 async def health_check():
