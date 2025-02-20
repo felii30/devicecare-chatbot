@@ -4,7 +4,7 @@ A conversational AI assistant for DeviceCare - your comprehensive device managem
 
 ## Deployed Application
 
-Visit the deployed version at: [https://devicecare-chatbot-feliciapaulus.vercel.app](https://devicecare-chatbot-feliciapaulus.vercel.app)
+Visit the deployed version at: <a href="https://devicecare-chatbot-feliciapaulus.vercel.app" target="_blank">https://devicecare-chatbot-feliciapaulus.vercel.app</a>
 
 ## About DeviceCare
 
