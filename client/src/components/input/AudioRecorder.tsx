@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react"
-import { transcribeAudio } from "../services/chatService.ts"
+import { transcribeAudio } from "../../services/chatService.ts"
 import { IconButton, Icon } from "@chakra-ui/react"
 import { keyframes } from "@emotion/react"
 import { MdMic, MdStop } from "react-icons/md"
