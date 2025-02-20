@@ -61,6 +61,10 @@ export const chakraTheme = extendTheme({
         bg: 'white',
         color: 'gray.800',
       },
+      'html, body': {
+        height: '100%',
+        overflow: 'hidden',
+      },
     },
   },
 }); 

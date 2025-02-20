@@ -51,22 +51,27 @@ export const MessageInput: React.FC<MessageInputProps> = ({
           onChange={(e) => setMessage(e.target.value)}
           onKeyDown={handleKeyDown}
           placeholder="Type your message..."
-          minH="50px"
-          maxH="150px"
+          minH={{ base: "45px", sm: "50px", md: "50px" }}
+          maxH={{ base: "120px", sm: "150px", md: "150px" }}
+          h="auto"
           overflowY="auto"
           resize="none"
           bg="white"
           border="1px"
           borderColor="gray.200"
+          borderRadius="15px"
           _hover={{ borderColor: "gray.300" }}
           _focus={{
             borderColor: "brand.500",
             boxShadow: "none",
           }}
-          py={3}
-          px={3}
+          py={{ base: 2, sm: 3, md: 3 }}
+          px={{ base: 3, sm: 3, md: 3 }}
           rows={1}
           flex="1"
+          fontSize={{ base: "sm", sm: "md", md: "md" }}
+          textAlign="left"
+          lineHeight={{ base: "1.5", sm: "1.5", md: "1.5" }}
           sx={{
             "&::-webkit-scrollbar": {
               width: "8px",
@@ -79,6 +84,10 @@ export const MessageInput: React.FC<MessageInputProps> = ({
             },
             "&:focus::-webkit-scrollbar-track": {
               backgroundColor: "transparent",
+            },
+            "&::placeholder": {
+              textAlign: "left",
+              lineHeight: "inherit",
             },
           }}
         />

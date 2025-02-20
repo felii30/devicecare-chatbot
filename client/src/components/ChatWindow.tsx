@@ -189,7 +189,7 @@ export const ChatWindow: React.FC = () => {
   const showWelcomeScreen = threads.length === 0
 
   return (
-    <Flex h="100vh">
+    <Flex h="100vh" overflow="hidden">
       <Sidebar
         threads={threads}
         onNewChat={handleNewChat}
@@ -201,8 +201,18 @@ export const ChatWindow: React.FC = () => {
 
       <Box
         flex="1"
-        ml={isSidebarOpen ? "260px" : 0}
+        ml={{
+          base: isSidebarOpen ? "260px" : 0,
+          md: isSidebarOpen ? "260px" : 0,
+        }}
         transition="margin-left 0.3s"
+        position="relative"
+        left={0}
+        transform={{
+          base: isSidebarOpen ? "translateX(0)" : "translateX(0)",
+          md: "none",
+        }}
+        overflow="hidden"
       >
         {!activeThreadId ? (
           <Flex
@@ -211,14 +221,15 @@ export const ChatWindow: React.FC = () => {
             bg="white"
             position="relative"
             overflow="hidden"
+            px={{ base: 4, md: 6 }}
           >
             {/* Gradient Blobs */}
             <Box
               position="absolute"
               top="10%"
               left="15%"
-              width="40vw"
-              height="40vw"
+              width={{ base: "60vw", md: "40vw" }}
+              height={{ base: "60vw", md: "40vw" }}
               background="radial-gradient(circle, rgba(0,177,215,0.15) 0%, rgba(0,177,215,0) 70%)"
               borderRadius="full"
               filter="blur(40px)"
@@ -228,10 +239,10 @@ export const ChatWindow: React.FC = () => {
             />
             <Box
               position="absolute"
-              top="40%"
+              top={{ base: "30%", md: "40%" }}
               right="15%"
-              width="35vw"
-              height="35vw"
+              width={{ base: "50vw", md: "35vw" }}
+              height={{ base: "50vw", md: "35vw" }}
               background="radial-gradient(circle, rgba(52,211,153,0.15) 0%, rgba(52,211,153,0) 70%)"
               borderRadius="full"
               filter="blur(40px)"
@@ -241,10 +252,10 @@ export const ChatWindow: React.FC = () => {
             />
             <Box
               position="absolute"
-              top="60%"
+              top={{ base: "50%", md: "60%" }}
               left="25%"
-              width="30vw"
-              height="30vw"
+              width={{ base: "45vw", md: "30vw" }}
+              height={{ base: "45vw", md: "30vw" }}
               background="radial-gradient(circle, rgba(0,152,193,0.15) 0%, rgba(0,152,193,0) 70%)"
               borderRadius="full"
               filter="blur(40px)"
@@ -259,13 +270,12 @@ export const ChatWindow: React.FC = () => {
               direction="column"
               align="center"
               justify="center"
-              px={4}
               position="relative"
               zIndex={1}
             >
-              <Box textAlign="center" mb={12}>
+              <Box textAlign="center" mb={12} px={{ base: 4, md: 0 }}>
                 <Heading
-                  size="lg"
+                  size={{ base: "xl", md: "lg" }}
                   mb={4}
                   bgGradient="linear(to-r, brand.500, accent.100, brand.600)"
                   bgClip="text"
@@ -281,7 +291,7 @@ export const ChatWindow: React.FC = () => {
                 <Text
                   color="gray.600"
                   mb={8}
-                  fontSize="lg"
+                  fontSize={{ base: "md", md: "lg" }}
                   animation={`${fadeIn} 0.6s ease-out forwards`}
                   opacity="0"
                 >
@@ -289,7 +299,7 @@ export const ChatWindow: React.FC = () => {
                 </Text>
               </Box>
 
-              <Box w="100%" maxW="2xl">
+              <Box w="100%" maxW="2xl" px={{ base: 2, md: 0 }}>
                 <MessageInput
                   onSendMessage={handleSendMessage}
                   isLoading={isLoading}
@@ -299,9 +309,9 @@ export const ChatWindow: React.FC = () => {
                   <Grid
                     templateColumns={{
                       base: "1fr",
-                      md: "repeat(2, 1fr)",
+                      sm: "repeat(2, 1fr)",
                     }}
-                    gap={3}
+                    gap={{ base: 2, md: 3 }}
                   >
                     {EXAMPLE_PROMPTS.map((prompt) => (
                       <Button
@@ -309,8 +319,8 @@ export const ChatWindow: React.FC = () => {
                         onClick={() => handleExampleClick(prompt)}
                         variant="outline"
                         justifyContent="flex-start"
-                        py={6}
-                        px={4}
+                        py={{ base: 4, md: 6 }}
+                        px={{ base: 3, md: 4 }}
                         height="auto"
                         whiteSpace="normal"
                         textAlign="left"
@@ -320,6 +330,7 @@ export const ChatWindow: React.FC = () => {
                           bg: "gray.50",
                           borderColor: "brand.500",
                         }}
+                        fontSize={{ base: "sm", md: "md" }}
                       >
                         {prompt}
                       </Button>
@@ -336,9 +347,40 @@ export const ChatWindow: React.FC = () => {
             bg="white"
             h="100vh"
             position="relative"
+            overflow="hidden"
           >
-            <Box flex="1" overflowY="auto" px={4} pb={24}>
-              <Box maxW="4xl" mx="auto" py={4}>
+            <Box
+              flex="1"
+              overflowY="auto"
+              px={{ base: 4, md: 6 }}
+              pb={{ base: 24, md: 24 }}
+              sx={{
+                "&::-webkit-scrollbar": {
+                  width: "8px",
+                  backgroundColor: "transparent",
+                },
+                "&::-webkit-scrollbar-track": {
+                  backgroundColor: "transparent",
+                },
+                "&::-webkit-scrollbar-thumb": {
+                  backgroundColor: "rgba(0, 0, 0, 0.1)",
+                  borderRadius: "8px",
+                  border: "2px solid transparent",
+                  backgroundClip: "content-box",
+                },
+                "&::-webkit-scrollbar-thumb:hover": {
+                  backgroundColor: "rgba(0, 0, 0, 0.2)",
+                },
+                scrollbarWidth: "thin",
+                scrollbarColor: "rgba(0, 0, 0, 0.1) transparent",
+              }}
+            >
+              <Box
+                maxW="4xl"
+                mx="auto"
+                py={{ base: 3, md: 4 }}
+                px={{ base: 2, md: 0 }}
+              >
                 {messages.map((message, index) => (
                   <ChatBubble
                     key={message.id}
@@ -357,15 +399,16 @@ export const ChatWindow: React.FC = () => {
             <Box
               position="fixed"
               bottom={0}
-              left={isSidebarOpen ? "260px" : 0}
+              left={isSidebarOpen ? { base: "260px", md: "260px" } : 0}
               right={0}
               borderTop="1px"
               borderColor="gray.200"
               bg="white"
-              p={4}
+              px={{ base: 4, md: 6 }}
+              py={{ base: 3, md: 4 }}
               transition="left 0.3s"
             >
-              <Box maxW="4xl" mx="auto">
+              <Box maxW="4xl" mx="auto" px={{ base: 2, md: 0 }}>
                 <MessageInput
                   onSendMessage={handleSendMessage}
                   isLoading={isLoading}
