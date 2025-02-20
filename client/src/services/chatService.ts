@@ -3,7 +3,7 @@ export const API_URL = process.env.REACT_APP_API_URL || "http://localhost:8000"
 /**
  * Chat service for DeviceCare's customer support chatbot
  * 
- * Communicates with a fine-tuned GPT-4 model (ft:gpt-4o-2024-08-06:personal::B2NTdmw0)
+ * Communicates with a fine-tuned GPT-4 model
  * that was trained on DeviceCare's FAQ documentation. The model provides responses
  * strictly based on the FAQ content and maintains a consistent support-oriented tone.
  */
