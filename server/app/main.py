@@ -20,6 +20,17 @@ app = FastAPI(
     version="1.0.0"
 )
 
+# Enable CORS for development
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[
+        "http://localhost:3000",           # Local development
+    ],
+    allow_credentials=True,
+    allow_methods=["GET", "POST", "OPTIONS"],
+    allow_headers=["Content-Type"],
+)
+
 class ChatMessage(BaseModel):
     message: str
     thread_id: Optional[str] = None

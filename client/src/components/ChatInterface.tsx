@@ -27,12 +27,14 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
 }) => {
   return (
     <Flex
-      flex="1"
       direction="column"
+      h="100%"
+      minW={0}
       bg="white"
-      h="100vh"
       position="relative"
       overflow="hidden"
+      pt={{ base: "60px", md: 0 }}
+      pb={{ base: "80px", md: 0 }}
     >
       <ChatMessages
         messages={messages}
