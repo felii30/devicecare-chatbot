@@ -34,7 +34,7 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
       position="relative"
       overflow="hidden"
       pt={{ base: "60px", md: 0 }}
-      pb={{ base: "80px", md: 0 }}
+      pb={{ base: "20px", md: 0 }}
     >
       <ChatMessages
         messages={messages}
@@ -62,7 +62,7 @@ const ChatMessages: React.FC<{
     flex="1"
     overflowY="auto"
     px={{ base: 2, md: 6 }}
-    pb={{ base: "60px", md: "80px" }}
+    pb={{ base: "20px", md: "40px" }}
     sx={{
       "&::-webkit-scrollbar": {
         width: "8px",

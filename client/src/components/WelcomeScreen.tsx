@@ -39,7 +39,7 @@ export const WelcomeScreen: React.FC<WelcomeScreenProps> = ({
       position="relative"
       overflow="hidden"
       px={{ base: 4, md: 6 }}
-      pb={{ base: "80px", md: 0 }}
+      pb={{ base: "20px", md: 0 }}
       pt={{ base: "60px", md: 0 }}
     >
       {/* Gradient Blobs */}
