@@ -1,74 +1,9 @@
 import React, { useState, useRef, useEffect } from "react"
-import { keyframes } from "@emotion/react"
-import {
-  VStack,
-  Box,
-  Flex,
-  Heading,
-  Text,
-  Grid,
-  Button,
-} from "@chakra-ui/react"
-import { ChatBubble } from "./ChatBubble.tsx"
-import { MessageInput } from "./MessageInput.tsx"
+import { Box, Flex } from "@chakra-ui/react"
+import { WelcomeScreen } from "./WelcomeScreen.tsx"
+import { ChatInterface } from "./ChatInterface.tsx"
 import { Sidebar } from "./Sidebar.tsx"
-
-// Define gradient animation
-const gradientAnimation = keyframes`
-  0% { background-position: 0% 50% }
-  50% { background-position: 100% 50% }
-  100% { background-position: 0% 50% }
-`
-
-// Add these keyframes at the top with other animations
-const floatAnimation1 = keyframes`
-  0% { transform: translate(0, 0) rotate(0deg); }
-  50% { transform: translate(-40px, 30px) rotate(3deg); }
-  100% { transform: translate(0, 0) rotate(0deg); }
-`
-
-const floatAnimation2 = keyframes`
-  0% { transform: translate(0, 0) rotate(0deg); }
-  50% { transform: translate(35px, -30px) rotate(-3deg); }
-  100% { transform: translate(0, 0) rotate(0deg); }
-`
-
-const floatAnimation3 = keyframes`
-  0% { transform: translate(0, 0) rotate(0deg); }
-  50% { transform: translate(-30px, -35px) rotate(2deg); }
-  100% { transform: translate(0, 0) rotate(0deg); }
-`
-
-// Add these new animations at the top with other keyframes
-const fadeIn = keyframes`
-  0% { opacity: 0; }
-  100% { opacity: 1; }
-`
-
-const gradientMove = keyframes`
-  0% { background-position: 0% 50% }
-  50% { background-position: 100% 50% }
-  100% { background-position: 0% 50% }
-`
-
-interface Message {
-  id: number
-  text: string
-  isUser: boolean
-}
-
-interface Thread {
-  id: number
-  title: string
-  messages: Message[]
-}
-
-const EXAMPLE_PROMPTS = [
-  "What services does DeviceCare offer?",
-  "How do I perform a device health scan?",
-  "Do you offer a free trial?",
-  "Can you help with device protection?",
-]
+import { Thread, Message } from "../types/chat"
 
 export const ChatWindow: React.FC = () => {
   const [threads, setThreads] = useState<Thread[]>([])
@@ -182,12 +117,6 @@ export const ChatWindow: React.FC = () => {
     }
   }
 
-  const handleExampleClick = (prompt: string) => {
-    handleSendMessage(prompt)
-  }
-
-  const showWelcomeScreen = threads.length === 0
-
   return (
     <Flex h="100vh" overflow="hidden">
       <Sidebar
@@ -215,208 +144,21 @@ export const ChatWindow: React.FC = () => {
         overflow="hidden"
       >
         {!activeThreadId ? (
-          <Flex
-            minH="100vh"
-            direction="column"
-            bg="white"
-            position="relative"
-            overflow="hidden"
-            px={{ base: 4, md: 6 }}
-          >
-            {/* Gradient Blobs */}
-            <Box
-              position="absolute"
-              top="10%"
-              left="15%"
-              width={{ base: "60vw", md: "40vw" }}
-              height={{ base: "60vw", md: "40vw" }}
-              background="radial-gradient(circle, rgba(0,177,215,0.15) 0%, rgba(0,177,215,0) 70%)"
-              borderRadius="full"
-              filter="blur(40px)"
-              zIndex={0}
-              animation={`${floatAnimation1} 18s ease-in-out infinite`}
-              sx={{ transformOrigin: "center center" }}
-            />
-            <Box
-              position="absolute"
-              top={{ base: "30%", md: "40%" }}
-              right="15%"
-              width={{ base: "50vw", md: "35vw" }}
-              height={{ base: "50vw", md: "35vw" }}
-              background="radial-gradient(circle, rgba(52,211,153,0.15) 0%, rgba(52,211,153,0) 70%)"
-              borderRadius="full"
-              filter="blur(40px)"
-              zIndex={0}
-              animation={`${floatAnimation2} 20s ease-in-out infinite`}
-              sx={{ transformOrigin: "center center" }}
-            />
-            <Box
-              position="absolute"
-              top={{ base: "50%", md: "60%" }}
-              left="25%"
-              width={{ base: "45vw", md: "30vw" }}
-              height={{ base: "45vw", md: "30vw" }}
-              background="radial-gradient(circle, rgba(0,152,193,0.15) 0%, rgba(0,152,193,0) 70%)"
-              borderRadius="full"
-              filter="blur(40px)"
-              zIndex={0}
-              animation={`${floatAnimation3} 15s ease-in-out infinite`}
-              sx={{ transformOrigin: "center center" }}
-            />
-
-            {/* Content */}
-            <Flex
-              flex="1"
-              direction="column"
-              align="center"
-              justify="center"
-              position="relative"
-              zIndex={1}
-            >
-              <Box textAlign="center" mb={12} px={{ base: 4, md: 0 }}>
-                <Heading
-                  size={{ base: "xl", md: "lg" }}
-                  mb={4}
-                  bgGradient="linear(to-r, brand.500, accent.100, brand.600)"
-                  bgClip="text"
-                  fontSize="4xl"
-                  bgSize="200% auto"
-                  animation={`
-                    ${fadeIn} 1.3s ease-out forwards,
-                    ${gradientMove} 7s linear infinite
-                  `}
-                >
-                  Hi there!
-                </Heading>
-                <Text
-                  color="gray.600"
-                  mb={8}
-                  fontSize={{ base: "md", md: "lg" }}
-                  animation={`${fadeIn} 0.6s ease-out forwards`}
-                  opacity="0"
-                >
-                  How can I help you with DeviceCare today?
-                </Text>
-              </Box>
-
-              <Box w="100%" maxW="2xl" px={{ base: 2, md: 0 }}>
-                <MessageInput
-                  onSendMessage={handleSendMessage}
-                  isLoading={isLoading}
-                  onStopGeneration={handleStopGeneration}
-                />
-                <Box mt={8}>
-                  <Grid
-                    templateColumns={{
-                      base: "1fr",
-                      sm: "repeat(2, 1fr)",
-                    }}
-                    gap={{ base: 2, md: 3 }}
-                  >
-                    {EXAMPLE_PROMPTS.map((prompt) => (
-                      <Button
-                        key={prompt}
-                        onClick={() => handleExampleClick(prompt)}
-                        variant="outline"
-                        justifyContent="flex-start"
-                        py={{ base: 4, md: 6 }}
-                        px={{ base: 3, md: 4 }}
-                        height="auto"
-                        whiteSpace="normal"
-                        textAlign="left"
-                        borderColor="gray.200"
-                        bg="white"
-                        _hover={{
-                          bg: "gray.50",
-                          borderColor: "brand.500",
-                        }}
-                        fontSize={{ base: "sm", md: "md" }}
-                      >
-                        {prompt}
-                      </Button>
-                    ))}
-                  </Grid>
-                </Box>
-              </Box>
-            </Flex>
-          </Flex>
+          <WelcomeScreen
+            onSendMessage={handleSendMessage}
+            isLoading={isLoading}
+            onStopGeneration={handleStopGeneration}
+            onExampleClick={handleSendMessage}
+          />
         ) : (
-          <Flex
-            flex="1"
-            direction="column"
-            bg="white"
-            h="100vh"
-            position="relative"
-            overflow="hidden"
-          >
-            <Box
-              flex="1"
-              overflowY="auto"
-              px={{ base: 4, md: 6 }}
-              pb={{ base: 24, md: 24 }}
-              sx={{
-                "&::-webkit-scrollbar": {
-                  width: "8px",
-                  backgroundColor: "transparent",
-                },
-                "&::-webkit-scrollbar-track": {
-                  backgroundColor: "transparent",
-                },
-                "&::-webkit-scrollbar-thumb": {
-                  backgroundColor: "rgba(0, 0, 0, 0.1)",
-                  borderRadius: "8px",
-                  border: "2px solid transparent",
-                  backgroundClip: "content-box",
-                },
-                "&::-webkit-scrollbar-thumb:hover": {
-                  backgroundColor: "rgba(0, 0, 0, 0.2)",
-                },
-                scrollbarWidth: "thin",
-                scrollbarColor: "rgba(0, 0, 0, 0.1) transparent",
-              }}
-            >
-              <Box
-                maxW="4xl"
-                mx="auto"
-                py={{ base: 3, md: 4 }}
-                px={{ base: 2, md: 0 }}
-              >
-                {messages.map((message, index) => (
-                  <ChatBubble
-                    key={message.id}
-                    message={message.text}
-                    isUser={message.isUser}
-                    isLoading={
-                      !message.isUser &&
-                      index === messages.length - 1 &&
-                      isLoading
-                    }
-                  />
-                ))}
-                <div ref={messagesEndRef} />
-              </Box>
-            </Box>
-            <Box
-              position="fixed"
-              bottom={0}
-              left={isSidebarOpen ? { base: "260px", md: "260px" } : 0}
-              right={0}
-              borderTop="1px"
-              borderColor="gray.200"
-              bg="white"
-              px={{ base: 4, md: 6 }}
-              py={{ base: 3, md: 4 }}
-              transition="left 0.3s"
-            >
-              <Box maxW="4xl" mx="auto" px={{ base: 2, md: 0 }}>
-                <MessageInput
-                  onSendMessage={handleSendMessage}
-                  isLoading={isLoading}
-                  onStopGeneration={handleStopGeneration}
-                />
-              </Box>
-            </Box>
-          </Flex>
+          <ChatInterface
+            messages={messages}
+            isLoading={isLoading}
+            onSendMessage={handleSendMessage}
+            onStopGeneration={handleStopGeneration}
+            isSidebarOpen={isSidebarOpen}
+            messagesEndRef={messagesEndRef}
+          />
         )}
       </Box>
     </Flex>
