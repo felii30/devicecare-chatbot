@@ -34,7 +34,7 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
       position="relative"
       overflow="hidden"
       pt={{ base: "60px", md: 0 }}
-      pb={{ base: "20px", md: 0 }}
+      pb={{ base: "0", md: 0 }}
     >
       <ChatMessages
         messages={messages}
