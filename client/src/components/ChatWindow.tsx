@@ -4,7 +4,7 @@ import { WelcomeScreen } from "./WelcomeScreen.tsx"
 import { ChatInterface } from "./ChatInterface.tsx"
 import { Sidebar } from "./Sidebar.tsx"
 import { Thread, Message } from "../types/chat.ts"
-import { API_URL } from "../services/chatService"
+import { API_URL } from "../services/chatService.ts"
 
 export const ChatWindow: React.FC = () => {
   const [threads, setThreads] = useState<Thread[]>([])
