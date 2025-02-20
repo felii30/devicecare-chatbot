@@ -20,6 +20,37 @@ const gradientAnimation = keyframes`
   100% { background-position: 0% 50% }
 `
 
+// Add these keyframes at the top with other animations
+const floatAnimation1 = keyframes`
+  0% { transform: translate(0, 0) rotate(0deg); }
+  50% { transform: translate(-40px, 30px) rotate(3deg); }
+  100% { transform: translate(0, 0) rotate(0deg); }
+`
+
+const floatAnimation2 = keyframes`
+  0% { transform: translate(0, 0) rotate(0deg); }
+  50% { transform: translate(35px, -30px) rotate(-3deg); }
+  100% { transform: translate(0, 0) rotate(0deg); }
+`
+
+const floatAnimation3 = keyframes`
+  0% { transform: translate(0, 0) rotate(0deg); }
+  50% { transform: translate(-30px, -35px) rotate(2deg); }
+  100% { transform: translate(0, 0) rotate(0deg); }
+`
+
+// Add these new animations at the top with other keyframes
+const fadeIn = keyframes`
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+`
+
+const gradientMove = keyframes`
+  0% { background-position: 0% 50% }
+  50% { background-position: 100% 50% }
+  100% { background-position: 0% 50% }
+`
+
 interface Message {
   id: number
   text: string
@@ -188,10 +219,12 @@ export const ChatWindow: React.FC = () => {
               left="15%"
               width="40vw"
               height="40vw"
-              background="radial-gradient(circle, rgba(139,92,246,0.08) 0%, rgba(139,92,246,0) 70%)"
+              background="radial-gradient(circle, rgba(0,177,215,0.15) 0%, rgba(0,177,215,0) 70%)"
               borderRadius="full"
               filter="blur(40px)"
               zIndex={0}
+              animation={`${floatAnimation1} 18s ease-in-out infinite`}
+              sx={{ transformOrigin: "center center" }}
             />
             <Box
               position="absolute"
@@ -199,10 +232,12 @@ export const ChatWindow: React.FC = () => {
               right="15%"
               width="35vw"
               height="35vw"
-              background="radial-gradient(circle, rgba(167,139,250,0.08) 0%, rgba(167,139,250,0) 70%)"
+              background="radial-gradient(circle, rgba(52,211,153,0.15) 0%, rgba(52,211,153,0) 70%)"
               borderRadius="full"
               filter="blur(40px)"
               zIndex={0}
+              animation={`${floatAnimation2} 20s ease-in-out infinite`}
+              sx={{ transformOrigin: "center center" }}
             />
             <Box
               position="absolute"
@@ -210,10 +245,12 @@ export const ChatWindow: React.FC = () => {
               left="25%"
               width="30vw"
               height="30vw"
-              background="radial-gradient(circle, rgba(216,180,254,0.08) 0%, rgba(216,180,254,0) 70%)"
+              background="radial-gradient(circle, rgba(0,152,193,0.15) 0%, rgba(0,152,193,0) 70%)"
               borderRadius="full"
               filter="blur(40px)"
               zIndex={0}
+              animation={`${floatAnimation3} 15s ease-in-out infinite`}
+              sx={{ transformOrigin: "center center" }}
             />
 
             {/* Content */}
@@ -230,13 +267,24 @@ export const ChatWindow: React.FC = () => {
                 <Heading
                   size="lg"
                   mb={4}
-                  bgGradient="linear(to-r, brand.500, blue.400)"
+                  bgGradient="linear(to-r, brand.500, accent.100, brand.600)"
                   bgClip="text"
                   fontSize="4xl"
+                  bgSize="200% auto"
+                  animation={`
+                    ${fadeIn} 1.3s ease-out forwards,
+                    ${gradientMove} 7s linear infinite
+                  `}
                 >
-                  Hi there! 👋
+                  Hi there!
                 </Heading>
-                <Text color="gray.600" mb={8} fontSize="lg">
+                <Text
+                  color="gray.600"
+                  mb={8}
+                  fontSize="lg"
+                  animation={`${fadeIn} 0.6s ease-out forwards`}
+                  opacity="0"
+                >
                   How can I help you with DeviceCare today?
                 </Text>
               </Box>
@@ -248,9 +296,6 @@ export const ChatWindow: React.FC = () => {
                   onStopGeneration={handleStopGeneration}
                 />
                 <Box mt={8}>
-                  <Text color="gray.500" mb={4} fontSize="sm">
-                    Or try one of these examples:
-                  </Text>
                   <Grid
                     templateColumns={{
                       base: "1fr",
@@ -273,7 +318,7 @@ export const ChatWindow: React.FC = () => {
                         bg="white"
                         _hover={{
                           bg: "gray.50",
-                          borderColor: "brand.200",
+                          borderColor: "brand.500",
                         }}
                       >
                         {prompt}
