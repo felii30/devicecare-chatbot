@@ -55,7 +55,10 @@ file_id = response.id
 # Start fine-tuning job
 response = client.fine_tuning.jobs.create(
     training_file=file_id,
-    model="gpt-4o-2024-08-06"
+    model="gpt-4o-2024-08-06",
+    hyperparameters={
+        "n_epochs": 3 # Sample number of epochs
+    }
 )
 job_id = response.id
 ```
@@ -106,7 +109,12 @@ def chat_with_assistant(user_message, thread_id, conversation_histories):
 
 ## Version Control
 
-### Current Version
+### Version 1
 
 - Model: `ft:gpt-4o-2024-08-06:personal::B2NTdmw0`
 - Dataset Version: 1.0
+
+### Version 2
+
+- Model: `ft:gpt-4o-2024-08-06:personal::B39GgRpM`
+- Dataset Version: 2.0 - Find the latest version in the `data` folder

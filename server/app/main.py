@@ -61,7 +61,7 @@ async def chat(message: ChatMessage) -> ChatResponse:
         
         # Get response from OpenAI using fine-tuned model
         response = client.chat.completions.create(
-            model="your-new-model-id",
+            model="ft:gpt-4o-2024-08-06:personal::B39GgRpM",
             messages=conversation_histories[thread_id],
             temperature=0,
         )
