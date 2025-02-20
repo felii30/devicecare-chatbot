@@ -13,8 +13,8 @@ if not api_key:
 # Set up OpenAI client
 client = openai.OpenAI(api_key=api_key)
 
-# Replace with your fine-tune job ID
-job_id = "ftjob-1xFE5qM3S0MFOXeqn4m7w6XA"
+# Update with your new fine-tune job ID
+job_id = "ftjob-l08E8H1hljmtioiMw8ALkkTu"
 
 # Check status
 response = client.fine_tuning.jobs.retrieve(job_id)

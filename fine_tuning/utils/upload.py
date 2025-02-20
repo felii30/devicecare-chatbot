@@ -14,7 +14,7 @@ if not api_key:
 client = openai.OpenAI(api_key=api_key)
 
 # Path to your fine-tuning dataset
-file_path = "../faq_dataset.jsonl"
+file_path = "../data/faq_dataset.jsonl"
 
 # Upload the file
 response = client.files.create(
