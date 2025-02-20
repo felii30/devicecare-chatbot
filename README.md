@@ -46,7 +46,6 @@ DeviceCare is a comprehensive device management solution designed to help users 
 
    ```env
    OPENAI_API_KEY=your_api_key_here
-   OPENAI_ASSISTANT_ID=your_assistant_id_here
    ```
 
 5. Start the FastAPI server:
