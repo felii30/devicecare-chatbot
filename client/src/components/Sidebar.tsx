@@ -1,23 +1,17 @@
 import React from "react"
 import {
+  Box,
   VStack,
   Button,
-  Box,
   Text,
-  Icon,
   Flex,
+  Divider,
   IconButton,
 } from "@chakra-ui/react"
-import { AddIcon, ChatIcon, HamburgerIcon, CloseIcon } from "@chakra-ui/icons"
-
-interface Thread {
-  id: number
-  title: string
-  active?: boolean
-}
+import { AddIcon, HamburgerIcon } from "@chakra-ui/icons"
 
 interface SidebarProps {
-  threads: Thread[]
+  threads: Array<{ id: number; title: string }>
   onNewChat: () => void
   onSelectThread: (id: number) => void
   activeThreadId?: number
@@ -35,59 +29,68 @@ export const Sidebar: React.FC<SidebarProps> = ({
 }) => {
   return (
     <>
-      <IconButton
-        icon={isOpen ? <CloseIcon /> : <HamburgerIcon />}
-        onClick={onToggle}
-        position="fixed"
-        top={4}
-        left={isOpen ? "276px" : 4}
-        zIndex={2}
-        size="sm"
-        aria-label="Toggle Sidebar"
-        variant="ghost"
-      />
+      {/* Hamburger button - only visible when sidebar is closed */}
+      {!isOpen && (
+        <IconButton
+          icon={<HamburgerIcon />}
+          onClick={onToggle}
+          position="fixed"
+          top={4}
+          left={4}
+          zIndex={20}
+          size="sm"
+          aria-label="Open Sidebar"
+        />
+      )}
+
       <Box
-        w="260px"
+        position="fixed"
+        left={0}
+        top={0}
         h="100vh"
+        w="260px"
         bg="white"
         borderRight="1px"
         borderColor="gray.200"
-        p={4}
-        position="fixed"
-        left={isOpen ? 0 : "-260px"}
-        transition="left 0.3s"
-        zIndex={1}
+        transform={isOpen ? "translateX(0)" : "translateX(-100%)"}
+        transition="transform 0.3s"
+        zIndex={20}
       >
-        <VStack spacing={4} align="stretch" mt={12}>
-          <Button
-            leftIcon={<AddIcon />}
-            onClick={onNewChat}
-            colorScheme="brand"
-            variant="outline"
-            w="full"
-          >
-            New chat
-          </Button>
-
-          <VStack spacing={2} align="stretch">
+        <VStack p={4} spacing={4} align="stretch">
+          <Flex justify="space-between" align="center">
+            <IconButton
+              icon={<HamburgerIcon />}
+              onClick={onToggle}
+              size="sm"
+              aria-label="Close Sidebar"
+            />
+            <Button
+              leftIcon={<AddIcon />}
+              onClick={onNewChat}
+              colorScheme="brand"
+              variant="outline"
+              size="sm"
+              flex={1}
+              ml={2}
+            >
+              New Chat
+            </Button>
+          </Flex>
+          <Divider />
+          <VStack align="stretch" spacing={2}>
             {threads.map((thread) => (
               <Button
                 key={thread.id}
                 onClick={() => onSelectThread(thread.id)}
-                variant="ghost"
+                variant={activeThreadId === thread.id ? "solid" : "ghost"}
+                colorScheme={activeThreadId === thread.id ? "brand" : "gray"}
                 justifyContent="flex-start"
-                h="auto"
-                py={2}
-                px={3}
-                bg={activeThreadId === thread.id ? "gray.100" : "transparent"}
-                _hover={{ bg: "gray.50" }}
+                size="sm"
+                py={6}
+                whiteSpace="normal"
+                textAlign="left"
               >
-                <Flex align="center">
-                  <Icon as={ChatIcon} mr={2} />
-                  <Text noOfLines={2} fontSize="sm">
-                    {thread.title}
-                  </Text>
-                </Flex>
+                <Text noOfLines={1}>{thread.title}</Text>
               </Button>
             ))}
           </VStack>
