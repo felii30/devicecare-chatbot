@@ -76,11 +76,6 @@ The client application should now be running on `http://localhost:3000`
 ### Backend
 
 - `OPENAI_API_KEY`: Your OpenAI API key
-- `PORT`: Server port (default: 8000)
-
-### Frontend
-
-- `VITE_API_URL`: Backend API URL (default: http://localhost:8000)
 
 ## License
 
