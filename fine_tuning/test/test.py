@@ -23,7 +23,7 @@ def chat_with_assistant(user_message, thread_id, conversation_histories):
 
     # Call the API with the thread's conversation history
     response = openai.chat.completions.create(
-        model="ft:gpt-4o-2024-08-06:personal::B2NTdmw0",
+        model="ft:gpt-4o-2024-08-06:personal::B39GgRpM",
         messages=conversation_histories[thread_id],
         temperature=0,
     )
