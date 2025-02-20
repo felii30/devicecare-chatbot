@@ -4,6 +4,7 @@ import { WelcomeScreen } from "./WelcomeScreen.tsx"
 import { ChatInterface } from "./ChatInterface.tsx"
 import { Sidebar } from "./Sidebar.tsx"
 import { Thread, Message } from "../types/chat.ts"
+import { API_URL } from "../services/chatService"
 
 export const ChatWindow: React.FC = () => {
   const [threads, setThreads] = useState<Thread[]>([])
@@ -82,7 +83,7 @@ export const ChatWindow: React.FC = () => {
     setAbortController(controller)
 
     try {
-      const response = await fetch("http://localhost:8000/chat", {
+      const response = await fetch(`${API_URL}/chat`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
