@@ -6,6 +6,7 @@ export interface Message {
 
 export interface Thread {
   id: number
+  apiThreadId?: string
   title: string
   messages: Message[]
 } 

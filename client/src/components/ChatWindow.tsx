@@ -39,6 +39,7 @@ export const ChatWindow: React.FC = () => {
 
   const handleSendMessage = async (text: string) => {
     let threadId: number
+    const apiThreadId = activeThreadId?.toString() || crypto.randomUUID()
 
     if (!activeThreadId) {
       threadId = Date.now()
@@ -83,7 +84,10 @@ export const ChatWindow: React.FC = () => {
       const response = await fetch("http://localhost:8000/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: text }),
+        body: JSON.stringify({
+          message: text,
+          thread_id: apiThreadId,
+        }),
         signal: controller.signal,
       })
 
