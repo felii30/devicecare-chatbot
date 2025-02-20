@@ -2,11 +2,24 @@
 
 A conversational AI assistant for DeviceCare - your comprehensive device management solution. This chatbot helps users interact with DeviceCare's features for monitoring, protecting, and optimizing electronic devices.
 
+## Deployed Application
+
+Visit the deployed version at: [https://devicecare-chatbot-feliciapaulus.vercel.app](https://devicecare-chatbot-feliciapaulus.vercel.app)
+
 ## About DeviceCare
 
 DeviceCare is a comprehensive device management solution designed to help users monitor, protect, and optimize their electronic devices, ensuring they run smoothly and efficiently.
 
-## Prerequisites
+## Features
+
+- Real-time chat interface for customer support
+- Voice input with transcription
+- Conversation history
+- Integration with GPT-4o (gpt-4o-2024-08-06)
+
+## Development Setup
+
+### Prerequisites
 
 - Node.js (v19 or higher) - required for React v19
 - npm (v8 or higher) or yarn
@@ -14,8 +27,6 @@ DeviceCare is a comprehensive device management solution designed to help users 
 - pip (v20 or higher recommended)
 - OpenAI API key
 - Modern web browser (Chrome, Firefox, Safari, or Edge)
-
-## Getting Started
 
 ### Setting up the Backend
 
@@ -70,13 +81,6 @@ The server will run on `http://localhost:8000`
 
 The React application will run on `http://localhost:3000`
 
-## Features
-
-- Real-time chat interface for customer support
-- Voice input with transcription
-- Conversation history
-- Integration with GPT-4o (gpt-4o-2024-08-06)
-
 ## Environment Variables
 
 ### Frontend
@@ -88,6 +92,13 @@ The React application will run on `http://localhost:3000`
 ### Backend
 
 - `OPENAI_API_KEY`: Your OpenAI API key (Keep this secret!)
+
+## Deployment
+
+The application is deployed using:
+
+- Frontend: Vercel
+- Backend: AWS EC2 with Nginx
 
 ## License
 
