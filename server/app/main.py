@@ -6,17 +6,17 @@ import openai
 import os
 from dotenv import load_dotenv
 
+# Load environment variables
 load_dotenv()
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
+# Initialize FastAPI app
 app = FastAPI()
 
 # Enable CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "http://localhost:3000"
-    ],
+    allow_origins=["http://localhost:3000"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -25,33 +25,23 @@ app.add_middleware(
 class ChatMessage(BaseModel):
     message: str
 
-# Import system instructions and FAQ from scripts/main.py
-from scripts.main import system_instructions, faq_document
-
-# Initialize conversation history
-conversation_history = [
-    {"role": "system", "content": "You are a DeviceCare customer support chatbot. Only answer based on the FAQ. If a question is out of scope, politely decline."}
-]
-
 @app.post("/chat")
 async def chat(message: ChatMessage) -> Dict[str, str]:
     try:
-        # Add user message to history
-        conversation_history.append({"role": "user", "content": message.message})
+        # Create a new conversation for each request
+        messages = [
+            {"role": "system", "content": "You are a DeviceCare customer support chatbot. Only answer based on the FAQ. If a question is out of scope, politely decline."},
+            {"role": "user", "content": message.message}
+        ]
         
         # Get response from OpenAI using fine-tuned model
         response = openai.chat.completions.create(
             model="ft:gpt-4o-2024-08-06:personal::B2NTdmw0",
-            messages=conversation_history,
-            temperature=0,  # Lower temperature for more consistent responses
+            messages=messages,
+            temperature=0,
         )
         
-        assistant_reply = response.choices[0].message.content
-        
-        # Add assistant response to history
-        conversation_history.append({"role": "assistant", "content": assistant_reply})
-        
-        return {"message": assistant_reply}
+        return {"message": response.choices[0].message.content}
     except Exception as e:
         print(f"Error: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))

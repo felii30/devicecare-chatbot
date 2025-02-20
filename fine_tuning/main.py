@@ -132,7 +132,7 @@ def chat_with_assistant(user_message, conversation_history):
 
     # 2. Call the API
     response = openai.chat.completions.create(
-        model="gpt-4o",  # or your fine-tuned model ID, e.g., "ft:gpt-4:my-model"
+        model="gpt-4o", 
         messages=conversation_history,
         temperature=0,
     )

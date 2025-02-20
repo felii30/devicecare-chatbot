@@ -19,7 +19,7 @@ file_id = "file-B3p3ggsHTRNx6m6YdvCs7o"
 # Start fine-tuning job
 response = client.fine_tuning.jobs.create(
     training_file=file_id,
-    model="gpt-4o-2024-08-06"  # Or "gpt-3.5-turbo"
+    model="gpt-4o-2024-08-06"
 )
 
 # Print fine-tune job ID
