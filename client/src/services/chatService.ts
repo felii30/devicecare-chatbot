@@ -26,13 +26,23 @@ export const sendMessage = async (message: string, threadId?: string): Promise<C
 }
 
 export const transcribeAudio = async (audioBlob: Blob): Promise<string> => {
-  const formData = new FormData()
-  formData.append("file", audioBlob)
-  
-  const response = await fetch(`${API_URL}/transcribe`, {
-    method: "POST",
-    body: formData,
-  })
-  const data = await response.json()
-  return data.text
-} 
+  try {
+    const formData = new FormData()
+    formData.append("file", audioBlob)
+    
+    const response = await fetch(`${API_URL}/transcribe`, {
+      method: "POST",
+      body: formData,
+    })
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`)
+    }
+    
+    const data = await response.json()
+    return data.text
+  } catch (error) {
+    console.error("Error transcribing audio:", error)
+    throw error
+  }
+}

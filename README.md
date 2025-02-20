@@ -42,13 +42,7 @@ DeviceCare is a comprehensive device management solution designed to help users 
    pip install -r requirements.txt
    ```
 
-4. Create a `.env` file in the server/app directory:
-
-   ```env
-   OPENAI_API_KEY=your_api_key_here
-   ```
-
-5. Start the FastAPI server:
+4. Start the FastAPI server:
    ```bash
    uvicorn main:app --reload
    ```
@@ -83,18 +77,18 @@ The React application will run on `http://localhost:3000`
 - Conversation history
 - Integration with GPT-4o (gpt-4o-2024-08-06)
 
-## License
-
-[MIT License](LICENSE)
-
 ## Environment Variables
 
 ### Frontend
 
 - `REACT_APP_API_URL`: Backend API URL
   - Development: http://localhost:8000
-  - Production: Your EC2 domain
+  - Production: Deployed API URL
 
 ### Backend
 
 - `OPENAI_API_KEY`: Your OpenAI API key (Keep this secret!)
+
+## License
+
+[MIT License](LICENSE)
