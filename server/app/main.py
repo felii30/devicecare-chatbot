@@ -1,19 +1,21 @@
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, UploadFile, File
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import Dict, Optional
-import openai
 import os
 from dotenv import load_dotenv
+from openai import OpenAI
 
 # Load environment variables
 load_dotenv()
-openai.api_key = os.getenv("OPENAI_API_KEY")
+
+# Initialize OpenAI client
+client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 # Initialize FastAPI app
 app = FastAPI(
     title="DeviceCare Chat API",
-    description="API for DeviceCare's customer support chatbot using OpenAI's fine-tuned model",
+    description="API for DeviceCare's customer support chatbot",
     version="1.0.0"
 )
 
@@ -27,33 +29,21 @@ app.add_middleware(
 )
 
 class ChatMessage(BaseModel):
-    """
-    Schema for chat messages sent by clients.
-    
-    Attributes:
-        message (str): The text content of the message
-        thread_id (Optional[str]): Unique identifier for the conversation thread
-    """
     message: str
     thread_id: Optional[str] = None
+
+class ChatResponse(BaseModel):
+    message: str
+
+class TranscriptionResponse(BaseModel):
+    text: str
 
 # Store conversation histories by thread ID
 conversation_histories = {}
 
 @app.post("/chat")
-async def chat(message: ChatMessage) -> Dict[str, str]:
-    """
-    Process incoming chat messages and return AI responses.
-    
-    Args:
-        message (ChatMessage): Contains the message text and optional thread_id
-        
-    Returns:
-        Dict[str, str]: Contains the AI's response message
-        
-    Raises:
-        HTTPException: If there's an error processing the message
-    """
+async def chat(message: ChatMessage) -> ChatResponse:
+    """Process incoming chat messages and return AI responses."""
     try:
         thread_id = message.thread_id
         
@@ -67,7 +57,7 @@ async def chat(message: ChatMessage) -> Dict[str, str]:
         conversation_histories[thread_id].append({"role": "user", "content": message.message})
         
         # Get response from OpenAI using fine-tuned model
-        response = openai.chat.completions.create(
+        response = client.chat.completions.create(
             model="ft:gpt-4o-2024-08-06:personal::B2NTdmw0",
             messages=conversation_histories[thread_id],
             temperature=0,
@@ -78,19 +68,48 @@ async def chat(message: ChatMessage) -> Dict[str, str]:
         # Add assistant response to thread history
         conversation_histories[thread_id].append({"role": "assistant", "content": assistant_reply})
         
-        return {"message": assistant_reply}
+        return ChatResponse(message=assistant_reply)
     except Exception as e:
         print(f"Error: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
 
+@app.post("/transcribe")
+async def transcribe_audio(audio: UploadFile = File(...)) -> TranscriptionResponse:
+    """
+    Transcribe uploaded audio to text using OpenAI's Whisper model.
+    """
+    try:
+        # Read the audio file into memory
+        audio_data = await audio.read()
+        
+        # Save temporarily to disk (Whisper API requires a file)
+        temp_audio_path = f"temp_{audio.filename}"
+        with open(temp_audio_path, "wb") as f:
+            f.write(audio_data)
+        
+        try:
+            # Transcribe the audio using Whisper
+            with open(temp_audio_path, "rb") as audio_file:
+                transcript = client.audio.transcriptions.create(
+                    model="whisper-1",
+                    file=audio_file,
+                    language="en"
+                )
+            
+            return TranscriptionResponse(text=transcript.text)
+        
+        finally:
+            # Clean up the temporary file
+            if os.path.exists(temp_audio_path):
+                os.remove(temp_audio_path)
+                
+    except Exception as e:
+        print(f"Error transcribing audio: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
 @app.get("/api/health")
 async def health_check():
-    """
-    Health check endpoint to verify API is running.
-    
-    Returns:
-        Dict[str, str]: Status message indicating the API is healthy
-    """
+    """Health check endpoint"""
     return {"status": "healthy"}
 
 if __name__ == "__main__":
