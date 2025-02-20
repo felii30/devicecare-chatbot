@@ -1,3 +1,5 @@
+const API_BASE_URL = 'http://localhost:8000'
+
 interface ChatResponse {
   message: string
 }
@@ -21,4 +23,21 @@ export const sendMessage = async (message: string, threadId: string): Promise<Ch
     console.error("Error sending message:", error)
     throw error
   }
-} 
+}
+
+export const transcribeAudio = async (audioBlob: Blob): Promise<string> => {
+    const formData = new FormData();
+    formData.append('audio', audioBlob, 'recording.webm');
+
+    const response = await fetch(`${API_BASE_URL}/transcribe`, {
+        method: 'POST',
+        body: formData,
+    });
+
+    if (!response.ok) {
+        throw new Error('Failed to transcribe audio');
+    }
+
+    const data = await response.json();
+    return data.text;
+}; 

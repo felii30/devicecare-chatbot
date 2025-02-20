@@ -1,8 +1,7 @@
-import React from "react"
+import React, { useState } from "react"
 import { Box, Flex, Heading, Text, Grid, Button } from "@chakra-ui/react"
 import { MessageInput } from "./MessageInput.tsx"
 import {
-  gradientAnimation,
   floatAnimation1,
   floatAnimation2,
   floatAnimation3,
@@ -11,17 +10,17 @@ import {
 } from "../animations/chatAnimations.ts"
 
 interface WelcomeScreenProps {
-  onSendMessage: (text: string) => void
+  onSendMessage: (message: string) => void
   isLoading: boolean
   onStopGeneration: () => void
-  onExampleClick: (prompt: string) => void
+  onExampleClick: (message: string) => void
 }
 
 const EXAMPLE_PROMPTS = [
   "What services does DeviceCare offer?",
   "How do I perform a device health scan?",
   "Do you offer a free trial?",
-  "Can you help with device protection?",
+  "How do I contact DeviceCare?",
 ]
 
 export const WelcomeScreen: React.FC<WelcomeScreenProps> = ({
@@ -30,6 +29,8 @@ export const WelcomeScreen: React.FC<WelcomeScreenProps> = ({
   onStopGeneration,
   onExampleClick,
 }) => {
+  const [inputMessage, setInputMessage] = useState("")
+
   return (
     <Flex
       minH="100vh"
@@ -78,11 +79,20 @@ export const WelcomeScreen: React.FC<WelcomeScreenProps> = ({
         </Box>
 
         <Box w="100%" maxW="2xl" px={{ base: 2, md: 0 }}>
-          <MessageInput
-            onSendMessage={onSendMessage}
-            isLoading={isLoading}
-            onStopGeneration={onStopGeneration}
-          />
+          <Flex gap={2} align="center" width="100%">
+            <Box flex="1">
+              <MessageInput
+                value={inputMessage}
+                onChange={setInputMessage}
+                onSendMessage={(text) => {
+                  onSendMessage(text)
+                  setInputMessage("")
+                }}
+                isLoading={isLoading}
+                onStopGeneration={onStopGeneration}
+              />
+            </Box>
+          </Flex>
           <ExamplePrompts onExampleClick={onExampleClick} />
         </Box>
       </Flex>

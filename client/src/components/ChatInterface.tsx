@@ -11,6 +11,8 @@ interface ChatInterfaceProps {
   onStopGeneration: () => void
   isSidebarOpen: boolean
   messagesEndRef: React.RefObject<HTMLDivElement | null>
+  inputMessage: string
+  setInputMessage: (text: string) => void
 }
 
 export const ChatInterface: React.FC<ChatInterfaceProps> = ({
@@ -20,6 +22,8 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
   onStopGeneration,
   isSidebarOpen,
   messagesEndRef,
+  inputMessage,
+  setInputMessage,
 }) => {
   return (
     <Flex
@@ -40,6 +44,8 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
         onSendMessage={onSendMessage}
         isLoading={isLoading}
         onStopGeneration={onStopGeneration}
+        inputMessage={inputMessage}
+        setInputMessage={setInputMessage}
       />
     </Flex>
   )
@@ -53,8 +59,8 @@ const ChatMessages: React.FC<{
   <Box
     flex="1"
     overflowY="auto"
-    px={{ base: 4, md: 6 }}
-    pb={{ base: 24, md: 24 }}
+    px={{ base: 2, md: 6 }}
+    pb={{ base: "60px", md: "80px" }}
     sx={{
       "&::-webkit-scrollbar": {
         width: "8px",
@@ -97,21 +103,28 @@ const InputContainer: React.FC<{
   onSendMessage: (text: string) => void
   isLoading: boolean
   onStopGeneration: () => void
-}> = ({ isSidebarOpen, onSendMessage, isLoading, onStopGeneration }) => (
+  inputMessage: string
+  setInputMessage: (text: string) => void
+}> = ({
+  isSidebarOpen,
+  onSendMessage,
+  isLoading,
+  onStopGeneration,
+  inputMessage,
+  setInputMessage,
+}) => (
   <Box
-    position="fixed"
-    bottom={0}
-    left={isSidebarOpen ? { base: "260px", md: "260px" } : 0}
-    right={0}
     borderTop="1px"
     borderColor="gray.200"
     bg="white"
-    px={{ base: 4, md: 6 }}
-    py={{ base: 3, md: 4 }}
-    transition="left 0.3s"
+    px={{ base: 2, md: 6 }}
+    py={{ base: 2, md: 4 }}
+    zIndex={2}
   >
-    <Box maxW="4xl" mx="auto" px={{ base: 2, md: 0 }}>
+    <Box maxW="4xl" mx="auto">
       <MessageInput
+        value={inputMessage}
+        onChange={setInputMessage}
         onSendMessage={onSendMessage}
         isLoading={isLoading}
         onStopGeneration={onStopGeneration}

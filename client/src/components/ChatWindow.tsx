@@ -3,7 +3,7 @@ import { Box, Flex } from "@chakra-ui/react"
 import { WelcomeScreen } from "./WelcomeScreen.tsx"
 import { ChatInterface } from "./ChatInterface.tsx"
 import { Sidebar } from "./Sidebar.tsx"
-import { Thread, Message } from "../types/chat"
+import { Thread, Message } from "../types/chat.ts"
 
 export const ChatWindow: React.FC = () => {
   const [threads, setThreads] = useState<Thread[]>([])
@@ -13,6 +13,7 @@ export const ChatWindow: React.FC = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
   const [abortController, setAbortController] =
     useState<AbortController | null>(null)
+  const [inputMessage, setInputMessage] = useState("")
 
   const activeThread = threads.find((t) => t.id === activeThreadId)
   const messages = activeThread?.messages || []
@@ -121,6 +122,10 @@ export const ChatWindow: React.FC = () => {
     }
   }
 
+  const handleTranscription = (text: string) => {
+    setInputMessage(text)
+  }
+
   return (
     <Flex h="100vh" overflow="hidden">
       <Sidebar
@@ -134,18 +139,11 @@ export const ChatWindow: React.FC = () => {
 
       <Box
         flex="1"
-        ml={{
-          base: isSidebarOpen ? "260px" : 0,
-          md: isSidebarOpen ? "260px" : 0,
-        }}
+        ml={{ base: 0, md: isSidebarOpen ? "260px" : 0 }}
         transition="margin-left 0.3s"
         position="relative"
-        left={0}
-        transform={{
-          base: isSidebarOpen ? "translateX(0)" : "translateX(0)",
-          md: "none",
-        }}
         overflow="hidden"
+        minW={0}
       >
         {!activeThreadId ? (
           <WelcomeScreen
@@ -155,14 +153,18 @@ export const ChatWindow: React.FC = () => {
             onExampleClick={handleSendMessage}
           />
         ) : (
-          <ChatInterface
-            messages={messages}
-            isLoading={isLoading}
-            onSendMessage={handleSendMessage}
-            onStopGeneration={handleStopGeneration}
-            isSidebarOpen={isSidebarOpen}
-            messagesEndRef={messagesEndRef}
-          />
+          <Flex direction="column" h="100%" minW={0}>
+            <ChatInterface
+              messages={messages}
+              isLoading={isLoading}
+              onSendMessage={handleSendMessage}
+              onStopGeneration={handleStopGeneration}
+              isSidebarOpen={isSidebarOpen}
+              messagesEndRef={messagesEndRef}
+              inputMessage={inputMessage}
+              setInputMessage={setInputMessage}
+            />
+          </Flex>
         )}
       </Box>
     </Flex>
