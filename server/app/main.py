@@ -20,19 +20,6 @@ app = FastAPI(
     version="1.0.0"
 )
 
-# Enable CORS
-# app.add_middleware(
-#     CORSMiddleware,
-#     allow_origins=[
-#         "http://localhost:3000",           # Local development
-#         "https://devicecare-chatbot-feliciapaulus.vercel.app",   # Main Vercel domain
-#         "https://devicecare-chatbot-*.vercel.app", # Preview deployments
-#     ],
-#     allow_credentials=True,
-#     allow_methods=["*"],
-#     allow_headers=["*"],
-# )
-
 class ChatMessage(BaseModel):
     message: str
     thread_id: Optional[str] = None

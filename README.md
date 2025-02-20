@@ -4,7 +4,7 @@ A conversational AI assistant for DeviceCare - your comprehensive device managem
 
 ## Deployed Application
 
-Visit the deployed version at: <a href="https://devicecare-chatbot-feliciapaulus.vercel.app" target="_blank">https://devicecare-chatbot-feliciapaulus.vercel.app</a>
+Visit the deployed version at: [https://devicecare-chatbot-feliciapaulus.vercel.app](https://devicecare-chatbot-feliciapaulus.vercel.app)
 
 ## About DeviceCare
 
@@ -15,7 +15,7 @@ DeviceCare is a comprehensive device management solution designed to help users 
 - Real-time chat interface for customer support
 - Voice input with transcription
 - Conversation history
-- Integration with GPT-4o (gpt-4o-2024-08-06)
+- Integration with GPT-4o (gpt-4o-2024-08-06) - [View Fine-Tuning Documentation](fine_tuning/README.md)
 
 ## Development Setup
 
