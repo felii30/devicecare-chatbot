@@ -1,17 +1,43 @@
+/**
+ * ChatInterface component handles the main chat interaction area.
+ *
+ * - Displays chat messages with user/bot indicators
+ * - Handles message input and sending
+ * - Shows loading states
+ * - Manages scrolling behavior
+ * - Responsive layout for mobile/desktop
+ */
+
 import React from "react"
 import { Box, Flex } from "@chakra-ui/react"
 import { ChatBubble } from "./ChatBubble.tsx"
 import { MessageInput } from "./input/MessageInput.tsx"
 import { Message } from "../types/chat.ts"
+import { LoadingSkeleton } from "./LoadingSkeleton.tsx"
 
 interface ChatInterfaceProps {
+  /** Array of messages to display */
   messages: Message[]
+
+  /** Loading state for API calls */
   isLoading: boolean
+
+  /** Callback for sending messages */
   onSendMessage: (text: string) => void
+
+  /** Callback to stop message generation */
   onStopGeneration: () => void
+
+  /** Controls sidebar visibility */
   isSidebarOpen: boolean
+
+  /** Ref for scrolling to bottom */
   messagesEndRef: React.RefObject<HTMLDivElement | null>
+
+  /** Current input message value */
   inputMessage: string
+
+  /** Callback to update input message */
   setInputMessage: (text: string) => void
 }
 
@@ -53,6 +79,9 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
   )
 }
 
+/**
+ * Displays the list of chat messages with scroll behavior
+ */
 const ChatMessages: React.FC<{
   messages: Message[]
   isLoading: boolean
@@ -95,11 +124,18 @@ const ChatMessages: React.FC<{
           }
         />
       ))}
+      {isLoading && messages.length === 0 && <LoadingSkeleton />}
+      {isLoading &&
+        messages.length > 0 &&
+        messages[messages.length - 1].isUser && <LoadingSkeleton />}
       <div ref={messagesEndRef} />
     </Box>
   </Box>
 )
 
+/**
+ * Container for the message input area
+ */
 const InputContainer: React.FC<{
   isSidebarOpen: boolean
   onSendMessage: (text: string) => void

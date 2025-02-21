@@ -1,3 +1,8 @@
+/**
+ * Sidebar component for chat thread management.
+ * Provides navigation between different chat threads and new chat creation.
+ */
+
 import React from "react"
 import {
   Box,
@@ -11,11 +16,22 @@ import {
 import { AddIcon, HamburgerIcon } from "@chakra-ui/icons"
 
 interface SidebarProps {
+  /** List of chat threads */
   threads: Array<{ id: number; title: string }>
+
+  /** Callback to start a new chat */
   onNewChat: () => void
+
+  /** Callback when a thread is selected */
   onSelectThread: (id: number) => void
+
+  /** Currently active thread ID */
   activeThreadId?: number
+
+  /** Controls sidebar visibility on mobile */
   isOpen: boolean
+
+  /** Callback to toggle sidebar visibility */
   onToggle: () => void
 }
 
@@ -43,6 +59,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
         />
       )}
 
+      {/* Sidebar container */}
       <Box
         position="fixed"
         left={0}

@@ -1,5 +1,3 @@
-export const API_URL = process.env.REACT_APP_API_URL || "http://localhost:8000"
-
 /**
  * Chat service for DeviceCare's customer support chatbot
  * 
@@ -8,10 +6,17 @@ export const API_URL = process.env.REACT_APP_API_URL || "http://localhost:8000"
  * strictly based on the FAQ content and maintains a consistent support-oriented tone.
  */
 
+export const API_URL = process.env.REACT_APP_API_URL || "http://localhost:8000"
+
 interface ChatResponse {
   message: string
 }
 
+/**
+ * Sends a message to the chatbot and returns the response
+ * @param message - The user's message
+ * @param threadId - Optional thread ID for conversation context
+ */
 export const sendMessage = async (message: string, threadId?: string): Promise<ChatResponse> => {
   try {
     const response = await fetch(`${API_URL}/chat`, {
@@ -33,6 +38,10 @@ export const sendMessage = async (message: string, threadId?: string): Promise<C
   }
 }
 
+/**
+ * Transcribes audio to text using OpenAI's Whisper model
+ * @param audioBlob - The recorded audio as a Blob
+ */
 export const transcribeAudio = async (audioBlob: Blob): Promise<string> => {
   try {
     const formData = new FormData()

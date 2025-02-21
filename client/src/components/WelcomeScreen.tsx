@@ -1,3 +1,8 @@
+/**
+ * WelcomeScreen component displays the initial chat interface.
+ * Shows a welcome message, example prompts, and message input.
+ */
+
 import React, { useState } from "react"
 import { Box, Flex, Heading, Text, Grid, Button } from "@chakra-ui/react"
 import { MessageInput } from "./input/MessageInput.tsx"
@@ -10,12 +15,20 @@ import {
 } from "../animations/chatAnimations.ts"
 
 interface WelcomeScreenProps {
+  /** Callback for sending new messages */
   onSendMessage: (message: string) => void
+
+  /** Loading state during API calls */
   isLoading: boolean
+
+  /** Callback to stop message generation */
   onStopGeneration: () => void
+
+  /** Callback for example prompt clicks */
   onExampleClick: (message: string) => void
 }
 
+/** Example prompts for quick-start conversations */
 const EXAMPLE_PROMPTS = [
   "What features does DeviceCare offer?",
   "How do I perform a device health scan?",

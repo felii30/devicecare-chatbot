@@ -1,3 +1,15 @@
+/**
+ * Main chat window component that manages the chat interface and thread state.
+ * Handles message sending, thread management, and UI state.
+ *
+ * Features:
+ * - Manages chat threads and active thread state
+ * - Handles message sending and receiving
+ * - Controls loading states and abort functionality
+ * - Manages sidebar visibility
+ * - Handles message scrolling
+ */
+
 import React, { useState, useRef, useEffect } from "react"
 import { Box, Flex } from "@chakra-ui/react"
 import { WelcomeScreen } from "./WelcomeScreen.tsx"
@@ -7,30 +19,44 @@ import { Thread, Message } from "../types/chat.ts"
 import { API_URL } from "../services/chatService.ts"
 
 export const ChatWindow: React.FC = () => {
+  // State management for chat threads and UI
   const [threads, setThreads] = useState<Thread[]>([])
   const [activeThreadId, setActiveThreadId] = useState<number | undefined>()
   const [isLoading, setIsLoading] = useState(false)
-  const messagesEndRef = useRef<HTMLDivElement>(null)
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
-  const [abortController, setAbortController] =
-    useState<AbortController | null>(null)
   const [inputMessage, setInputMessage] = useState("")
 
+  // Refs for scroll management and API control
+  const messagesEndRef = useRef<HTMLDivElement>(null)
+  const [abortController, setAbortController] =
+    useState<AbortController | null>(null)
+
+  // Get the active thread's messages
   const activeThread = threads.find((t) => t.id === activeThreadId)
   const messages = activeThread?.messages || []
 
+  /**
+   * Scrolls to the bottom of the chat window
+   */
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
   }
 
+  // Auto-scroll when messages change
   useEffect(() => {
     scrollToBottom()
   }, [messages])
 
+  /**
+   * Starts a new chat thread
+   */
   const handleNewChat = () => {
     setActiveThreadId(undefined)
   }
 
+  /**
+   * Stops the current message generation
+   */
   const handleStopGeneration = () => {
     if (abortController) {
       abortController.abort()
@@ -39,10 +65,15 @@ export const ChatWindow: React.FC = () => {
     }
   }
 
+  /**
+   * Sends a message and handles the response
+   * @param text - The message to send
+   */
   const handleSendMessage = async (text: string) => {
     let threadId: number
     const apiThreadId = activeThreadId?.toString() || crypto.randomUUID()
 
+    // Create new thread if none active
     if (!activeThreadId) {
       threadId = Date.now()
       const newThread: Thread = {
@@ -56,6 +87,7 @@ export const ChatWindow: React.FC = () => {
       threadId = activeThreadId
     }
 
+    // Add user message to thread
     const newMessage: Message = {
       id: Date.now(),
       text,
@@ -78,6 +110,7 @@ export const ChatWindow: React.FC = () => {
       })
     )
 
+    // Handle API request
     setIsLoading(true)
     const controller = new AbortController()
     setAbortController(controller)
@@ -94,6 +127,8 @@ export const ChatWindow: React.FC = () => {
       })
 
       const data = await response.json()
+
+      // Add bot response to thread
       const botResponse: Message = {
         id: Date.now() + 1,
         text: data.message,
